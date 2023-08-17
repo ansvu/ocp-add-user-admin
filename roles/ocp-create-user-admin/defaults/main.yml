@@ -1,0 +1,4 @@
+---
+openshift_config_ns: openshift-config
+openshift_auth_ns: openshift-authentication
+existed_secret: false

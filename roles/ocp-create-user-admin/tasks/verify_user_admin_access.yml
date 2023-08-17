@@ -1,0 +1,10 @@
+---
+- name: Verify accessibility of admin user for {{ admin_user }}
+  shell: oc login -u "{{ admin_user }}" -p "{{ admin_passwd }}" "{{ k8s_auth_api_host }}" --insecure-skip-tls-verify
+  register: oc_login_result
+  failed_when: oc_login_result.rc != 0 and 'Login successful' not in oc_login_result.stderr
+  ignore_errors: true
+
+- name: Print OC login result
+  debug:
+    var: oc_login_result

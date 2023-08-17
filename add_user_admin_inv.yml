@@ -1,0 +1,14 @@
+---
+all:
+  vars:
+    #These namespaces are optional to define here since it sets defaults/main.yml
+    openshift_config_ns: openshift-config
+    openshift_auth_ns: openshift-authentication
+    
+    # only one admin user supports 
+    admin_user: adminuser
+    admin_passwd: Adminuser123
+    os_config_dir: /tmp
+
+    # k8s_auth_api_host is optional and it should be comment by default
+    k8s_auth_api_host: "https://api.nokiavf.hubcluster-1.lab.eng.cert.redhat.com:6443"

@@ -1,0 +1,4 @@
+---
+# defaults file for disable-openshift-console
+openshift_console_ns: openshift-console
+...

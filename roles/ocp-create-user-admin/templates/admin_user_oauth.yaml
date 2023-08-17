@@ -1,0 +1,14 @@
+apiVersion: config.openshift.io/v1
+kind: OAuth
+metadata:
+  name: cluster
+spec:
+  identityProviders:
+  - htpasswd:
+      fileData:
+        name: "{{ secret_name }}"
+    mappingMethod: claim
+    name: "{{ idp_name }}"
+    type: HTPasswd
+  tokenConfig:
+    accessTokenMaxAgeSeconds: 31104000

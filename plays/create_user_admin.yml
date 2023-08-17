@@ -1,0 +1,8 @@
+---
+- name: "Create OpenShift User Admin"
+  hosts: localhost
+  gather_facts: true
+  environment:
+    KUBECONFIG: '/tmp/kubeconfig'  
+  roles:
+    - name: ocp-create-user-admin

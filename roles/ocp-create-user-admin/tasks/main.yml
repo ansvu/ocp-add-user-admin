@@ -1,0 +1,29 @@
+---
+- name: Get current OpenShift login user
+  shell: "oc whoami | awk -F: '{print $NF}'"
+  register: openshift_user_result
+
+- name: Set the OpenShift user
+  set_fact:
+    openshift_user: "{{ openshift_user_result.stdout }}"
+
+- block:
+    - name: Retrieve OpenShift Identity Provider and Secret Name from Oauth
+      include_tasks: check_save_idp_secret_name_if_exists.yml
+
+    - name: Extract and save existing user and password of htpasswd to a file
+      include_tasks: extract_ocp_config_secret_htpasswd.yml
+      when: existed_secret | default(false) | bool
+
+    - name: Generate htpasswd user admin
+      include_tasks: generate_htpasswd_and_encoded.yml
+
+    - name: Start Creating OpenShift User Admin
+      include_tasks: start_create_user_admin.yml
+
+    - name: Testing user admin access for {{ admin_user }}
+      include_tasks: verify_user_admin_access.yml
+      when: k8s_auth_api_host is defined
+
+  when: openshift_user != admin_user
+...

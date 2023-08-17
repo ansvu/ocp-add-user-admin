@@ -1,0 +1,67 @@
+---
+- name: Get Oauth Pods Before Update Oauth Secret
+  kubernetes.core.k8s_info:
+    api_version: v1
+    kind: Pod
+    namespace: "{{ openshift_auth_ns }}"
+    label_selectors:
+      - app=oauth-openshift
+  register: pod_info_before
+
+- name: Set Fact for Pod Ready Condition before
+  set_fact:
+    pod_ready_condition_before: "{{ pod_info_before.resources | json_query('[*].status.conditions[?type==`Ready`].[lastTransitionTime, type]') | first }}"
+
+- name: Print htpasswd encoded data
+  debug:
+    var: htpasswd_encoded
+
+- name: Create admin user secret
+  kubernetes.core.k8s:
+    definition: "{{ lookup('template', 'create_admin_user_secret.yaml') }}"
+    namespace: "{{ openshift_config_ns }}"
+    state: present
+  register: admin_user_secret
+
+- name: Update admin user oauth
+  kubernetes.core.k8s:
+    definition: "{{ lookup('template', 'admin_user_oauth.yaml') }}"
+  register: admin_user_oauth
+
+- name: Wait for Oauth Pods Restart Completion
+  kubernetes.core.k8s_info:
+    api_version: v1
+    kind: Pod
+    namespace: "{{ openshift_auth_ns }}"
+    label_selectors:
+      - app=oauth-openshift
+  register: pod_info_after
+  delay: 5
+  until: pod_ready_condition_before != pod_info_after.resources | json_query('[*].status.conditions[?type==`Ready`].[lastTransitionTime, type]') | first
+  retries: 60
+
+- name: Check Oauth PODs and wait until all are running 
+  kubernetes.core.k8s_info:
+    api_version: v1
+    kind: Pod
+    namespace: "{{ openshift_auth_ns }}"
+    label_selectors:
+      - app=oauth-openshift
+  register: pod_list
+  until: pod_list | json_query('resources[*].status.phase') | unique == ["Running"]
+  retries: 30
+  delay: 5
+
+- name: "Print PODs Ready Condition before and after"
+  vars:
+    pod_ready_condition_before: "{{ pod_info_before.resources | json_query('[*].status.conditions[?type==`Ready`].[lastTransitionTime, type]') | first }}"
+    pod_ready_condition_after: "{{ pod_info_after.resources | json_query('[*].status.conditions[?type==`Ready`].[lastTransitionTime, type]') | first }}"
+  debug:
+    msg: "before: {{ pod_ready_condition_before }}  after: {{ pod_ready_condition_after }}"
+
+- name: Create admin user clusterrolebinding
+  kubernetes.core.k8s:
+    definition: "{{ lookup('template', 'create_admin_user_clusterrolebinding.yaml') }}"
+    state: present
+  register: admin_user_clusterrolebinding
+...
