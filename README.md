@@ -208,14 +208,10 @@ localhost                  : ok=42   changed=5    unreachable=0    failed=0    s
 ```
 
 ## Limitation
-
-For now, user needs to generate new admin user using htpasswd tool, and get/extract the existings `secret` and `identity-provider` names. Next step is to automate these requirements.
-
+None.
 
 ## License
-
 BSD
 
 ## Author Information
-
 Andrew Vu: avu@redhat.com
