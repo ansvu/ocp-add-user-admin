@@ -127,7 +127,7 @@ Note: this parameter `k8s_auth_api_host` in add_user_admin_inv.yml must be comme
 `k8s_auth_api_host: "https://api.nokiavf.hubcluster-1.lab.eng.cert.redhat.com:6443"`
 
 ```shellSession
-$ ansible-playbook -i create_user_admin_inv.yml add_user_admin.yml
+$ ansible-playbook -i create_user_admin_inv.yml plays/create_user_admin.yml
 ```
 - Show the output when user checking  
 ```yaml
