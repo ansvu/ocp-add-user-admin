@@ -11,4 +11,4 @@ all:
     os_config_dir: /tmp
 
     # k8s_auth_api_host is optional and it should be comment by default
-    k8s_auth_api_host: "https://api.nokiavf.hubcluster-1.lab.eng.cert.redhat.com:6443"
+    #k8s_auth_api_host: "https://api.nokiavf.hubcluster-1.lab.eng.cert.redhat.com:6443"
