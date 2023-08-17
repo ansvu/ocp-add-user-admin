@@ -1,7 +1,0 @@
----
-- name: "Disable OpenShift Console Gui"
-  hosts: localhost
-  environment:
-    KUBECONFIG: '/tmp/kubeconfig'
-  roles:
-    - name: ocp-disable-console
