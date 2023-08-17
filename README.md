@@ -25,8 +25,9 @@ roles_path  = $PWD/roles
   Example,  
   https://api.{{cluster_name}}.{{domain_name}}:6443  
   This information can be retrieved with this cmd `oc whoami --show-console`
-```yaml
-  add_user_admin_inv.yml:  
+
+add_user_admin_inv.yml:
+```yaml  
   k8s_auth_api_host: "https://api.nokiavf.hubcluster-1.lab.eng.cert.redhat.com:6443"
 ```
 - Check and update plays/create_user_admin.yml file
