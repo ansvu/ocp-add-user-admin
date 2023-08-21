@@ -1,14 +1,20 @@
 ## Role Description
 
-This versatile Ansible role, named `ocp-create-user-admin`, is designed primarily to facilitate the addition of a new admin user to OpenShift, regardless of whether it's a Single Node OpenShift (SNO) or a Multi-Node Managed OpenShift (MMO) cluster. In cases where existing users are already present, the role will `automatically retrieve` their usernames and passwords from the existing secret. Subsequently, it merges this data with the details of the new admin user and updates the secret correspondingly. Additionally, if the httpd-tools RPM package is not installed, the role will handle its installation automatically. Furthermore, the role comprehensively automates the process of generating htpasswd entries, both for entirely new users and when combining new and existing user/password pairs. Moreover, the role includes the capability to identify the presence of an existing secret in the OAuth configuration, and it will proceed to extract the relevant Identity Provider information as well.
+The ocp-create-user-admin Ansible role helps you add a new admin user to OpenShift, whether it's a Single Node OpenShift (SNO) or a Multi-Node Managed OpenShift (MMO) cluster.
 
-Upon execution of the OAuth tasks, the OAuth pod in the "openshift-authentication" namespace will recycle the changes by deleting the pod and recreating it with the updated configuration.
+If there are already existing users, the role will automatically retrieve their usernames and passwords from the existing secret. It will then merge this data with the details of the new admin user and update the secret.
 
-In addition to user management, the role efficiently creates clusterrolebindings for each user listed in the users_list, effectively granting them appropriate access rights as required.
+If the httpd-tools RPM package is not installed, the role will install it automatically. It will also automate the process of generating htpasswd entries, both for entirely new users and when combining new and existing user/password pairs.
 
-Furthermore, if the user defines the `k8s_auth_api_host` variable, then the role will take the initiative to check and test the newly created admin user's login accessibility against the provided Kubernetes API host.
+The role can also identify the presence of an existing secret in the OAuth configuration, and it will extract the relevant Identity Provider information.
 
-With its comprehensive functionality, this Ansible role streamlines the process of adding and managing admin users in OpenShift cluster, ensuring a secure and efficient administration process.
+When the OAuth tasks are executed, the OAuth pod in the "openshift-authentication" namespace will be recycled. This means that the pod will be deleted and then recreated with the updated configuration.
+
+In addition to user management, the role also creates clusterrolebindings for each user listed in the users_list. This gives the users the appropriate access rights.
+
+If the user defines the k8s_auth_api_host variable, the role will check and test the newly created admin user's login accessibility against the provided Kubernetes API host.
+
+This Ansible role streamlines the process of adding and managing admin users in OpenShift clusters, ensuring a secure and efficient administration process.
 
 **Note:** If new user admin is same as current login `oc whoami`, it won't do nothing. 
 
