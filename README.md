@@ -34,7 +34,7 @@ roles_path  = $PWD/roles
 
 add_user_admin_inv.yml:
 ```yaml  
-  k8s_auth_api_host: "https://api.nokiavf.hubcluster-1.lab.eng.cert.redhat.com:6443"
+  k8s_auth_api_host: "https://api.xxxxxvf.hubcluster-1.lab.eng.cert.redhat.com:6443"
 ```
 - Check and update plays/create_user_admin.yml file
 ```yaml
@@ -61,7 +61,7 @@ all:
     os_config_dir: /tmp
 
     # k8s_auth_api_host is optional and it should be comment by default
-    k8s_auth_api_host: "https://api.nokiavf.hubcluster-1.lab.eng.cert.redhat.com:6443"
+    k8s_auth_api_host: "https://api.xxxxxvf.hubcluster-1.lab.eng.cert.redhat.com:6443"
 ```
 
 ## Role Variables
@@ -104,7 +104,7 @@ all:
     os_config_dir: /tmp
 
     # k8s_auth_api_host is optional and it should be comment by default
-    # k8s_auth_api_host: "https://api.nokiavf.hubcluster-1.lab.eng.cert.redhat.com:6443"
+    # k8s_auth_api_host: "https://api.xxxxxvf.hubcluster-1.lab.eng.cert.redhat.com:6443"
 
 $ tree .
 .
@@ -131,7 +131,7 @@ $ tree .
 ```
 - Run Playbook with Testing newly create admin user  
 Note: this parameter `k8s_auth_api_host` in add_user_admin_inv.yml must be commented it out  
-`k8s_auth_api_host: "https://api.nokiavf.hubcluster-1.lab.eng.cert.redhat.com:6443"`
+`k8s_auth_api_host: "https://api.xxxxxvf.hubcluster-1.lab.eng.cert.redhat.com:6443"`
 
 ```shellSession
 $ ansible-playbook -i create_user_admin_inv.yml plays/create_user_admin.yml
@@ -180,7 +180,7 @@ TASK [ocp-create-user-admin : Create admin user clusterrolebinding]
 TASK [ocp-create-user-admin : Testing user admin access for adminuser] 
 TASK [ocp-create-user-admin : Verify accessibility of admin user for adminuser] 
 TASK [ocp-create-user-admin : Print OC login result]
-task path: /root/nokia/nokia-automation/roles/test-ocp-create-user-admin/tasks/verify_user_admin_access.yml:8
+task path: /root/xxxxx/xxxxx-automation/roles/test-ocp-create-user-admin/tasks/verify_user_admin_access.yml:8
 ok: [localhost] => {
     "oc_login_result": {
         "changed": true,
